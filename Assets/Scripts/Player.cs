@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     //Force a laquelle on fait remonter le personnage
     public float force = 5f;
 
-    //Gravité a l'aquelle retombe le personnage
+    //Gravitï¿½ a l'aquelle retombe le personnage
     public float gravity = -9.81f;
 
     public float inclinaison = 5f;
@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
             direction = Vector3.up * force;
         }
 
-        // Application de la gravité et on update la position de iron man
+        // Application de la gravitï¿½ et on update la position de iron man
         direction.y += gravity * Time.deltaTime;
         transform.position += direction * Time.deltaTime;
 
@@ -72,6 +72,15 @@ public class Player : MonoBehaviour
         if (spriteIndex < sprites.Length && spriteIndex >= 0)
         {
             spriteRenderer.sprite = sprites[spriteIndex];
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Obstacle")) {
+            FindObjectOfType<GameManager>().GameOver();
+        } else if (other.gameObject.CompareTag("Scoring")) {
+            FindObjectOfType<GameManager>().IncreaseScore();
         }
     }
 }
