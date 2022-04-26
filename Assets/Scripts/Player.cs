@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     //Index pour le sprite
     private int spriteIndex;
 
+    public AudioSource audioSourceBonus;
+
     //Force a laquelle on fait remonter le personnage
     public float force = 5f;
 
@@ -75,12 +77,25 @@ public class Player : MonoBehaviour
         }
     }
 
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Obstacle")) {
-            FindObjectOfType<GameManager>().GameOver();
-        } else if (other.gameObject.CompareTag("Scoring")) {
-            FindObjectOfType<GameManager>().IncreaseScore();
+        // Gestion des collisions du joueur avec les éléments
+        switch (other.gameObject.tag) {
+            case "Obstacle":
+                FindObjectOfType<GameManager>().GameOver();
+                break;
+            case "Scoring":
+                FindObjectOfType<GameManager>().IncreaseScore();
+                break;
+            case "bonus":
+                FindObjectOfType<GameManager>().Bonus(audioSourceBonus);
+                // Destruction du bonus
+                Destroy(other.gameObject);
+                break;
+            default:
+                break;
         }
     }
+
 }

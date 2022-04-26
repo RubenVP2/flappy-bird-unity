@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Tuyaux : MonoBehaviour
 {
-    //Vitesse entre chaque apparition de tuyau (ajouter de la difficulté au jeu)
+    //Vitesse entre chaque apparition de tuyau (ajouter de la difficultï¿½ au jeu)
     public float vitesse = 5f;
     private float bordGauche;
 
@@ -19,7 +19,7 @@ public class Tuyaux : MonoBehaviour
         //Apparition a la position y des tuyaux
         transform.position += Vector3.left * vitesse * Time.deltaTime;
 
-        //On supprime les tuyaux qui ont été dépassé (qui se trouve sur la gauche du screen)
+        //On supprime les tuyaux qui ont ï¿½tï¿½ dï¿½passï¿½ (qui se trouve sur la gauche du screen)
         if (transform.position.x < bordGauche)
         {
             Destroy(gameObject);

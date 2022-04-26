@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
     public int score { get; private set; }
 
 
-    //Mettre un délai lors du lancement
     private void Awake()
     {
         Application.targetFrameRate = 60;
@@ -20,45 +19,65 @@ public class GameManager : MonoBehaviour
 
     public void Play()
     {
-        //Initialise le score à 0
+        // Initialise le jeu
         score = 0;
         scoreText.text = score.ToString();
 
-        //Desactive l'apparition des élements gameOver et le button de play
         playButton.SetActive(false);
         gameOver.SetActive(false);
 
+        // Vitesse du jeu
         Time.timeScale = 1f;
         player.enabled = true;
 
+        // Cherche le SpawnerBonus et les spawns
         Tuyaux[] pipes = FindObjectsOfType<Tuyaux>();
+        Bonus[] bonus = FindObjectsOfType<Bonus>();
 
+        // Boucles pour détruire les pipes et les bonus
         for (int i = 0; i < pipes.Length; i++) {
             Destroy(pipes[i].gameObject);
         }
+
+        for (int i = 0; i < bonus.Length; i++) {
+            Destroy(bonus[i].gameObject);
+        }
+
     }
 
-    //Permet d'afficher le menu lorsque l'on perds et relancer
     public void GameOver()
     {
+        // Dans le cas où le joueur perd après un bonus, permet d'afficher le score du joueur au lieu du +2
+        scoreText.text = score.ToString();
+        // Affiche les boutons "Jouer" et "GameOver"
         playButton.SetActive(true);
         gameOver.SetActive(true);
 
         Pause();
     }
 
-    //Permet de figer le jeu
     public void Pause()
     {
+        // Met en pause la partie
+        // Met le temps à 0 (pas de mouvement) et désactive le player
         Time.timeScale = 0f;
         player.enabled = false;
     }
 
-    //Methode permettant d'incrémenter le score
     public void IncreaseScore()
     {
+        // Incrémente le score
         score++;
         scoreText.text = score.ToString();
+    }
+
+    public void Bonus(AudioSource audioSource)
+    {
+        // Incrémente le score
+        score += 2;
+        scoreText.text = "+2";
+        // Joue le son
+        audioSource.Play();
     }
 
 }
